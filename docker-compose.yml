@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  iot-risk-detector:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: iot-risk-platform
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    # Linux host networking allows full L2 ARP, SSDP multicast, and raw packet inspection across local LAN.
+    # On Linux systems, you can uncomment network_mode: "host" (and comment out ports):
+    # network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    volumes:
+      - ./data:/app/data
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - NO_BROWSER=true

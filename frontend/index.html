@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT Risk Detect - Multi-Layer Security Assessment & Automated Response</title>
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2306b6d4'><path d='M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 17.93V18a1 1 0 0 0-2 0v1.93A8 8 0 0 1 4.07 13H6a1 1 0 0 0 0-2H4.07A8 8 0 0 1 11 4.07V6a1 1 0 0 0 2 0V4.07A8 8 0 0 1 19.93 11H18a1 1 0 0 0 0 2h1.93A8 8 0 0 1 13 19.93z'/></svg>">
+</head>
+<body>
+  <div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M12 8v4"/>
+            <path d="M12 16h.01"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">IoT Risk Detect</div>
+          <div class="brand-sub">Assessment & Response</div>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-section-title">Core Operations</div>
+        <a class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></svg>
+          Dashboard
+        </a>
+        <a class="nav-item" data-view="discovery" id="nav-discovery">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+          Network Discovery
+        </a>
+        <a class="nav-item" data-view="devices" id="nav-devices">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          Device Inventory
+        </a>
+        <a class="nav-item" data-view="topology" id="nav-topology">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Network Topology
+        </a>
+
+        <div class="nav-section-title">Deep Security Layers</div>
+        <a class="nav-item" data-view="cve" id="nav-cve">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          CVE Intelligence
+        </a>
+        <a class="nav-item" data-view="config" id="nav-config">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 11 12 14 22 4"/></svg>
+          Configuration Audit
+        </a>
+        <a class="nav-item" data-view="behavior" id="nav-behavior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Traffic & Behavior
+        </a>
+
+        <div class="nav-section-title">Automated Response</div>
+        <a class="nav-item" data-view="quarantine" id="nav-quarantine">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          Quarantine Center
+        </a>
+        <a class="nav-item" data-view="reports" id="nav-reports">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Security Reports
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-pill" id="status-firewall">
+          <span class="status-dot"></span> Kernel Firewall (Admin)
+        </div>
+        <div class="system-pill" id="status-ws">
+          <span class="status-dot active-pulsing"></span> Live Stream Active
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <main class="main-wrapper">
+      <!-- TOP BAR -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <h1 class="page-title" id="top-bar-title">Executive Posture & Security Dashboard</h1>
+        </div>
+        <div class="top-bar-right">
+          <button class="btn btn-outline-cyan btn-sm" onclick="triggerDiscovery()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+            Quick Scan
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="triggerAssessAll()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Assess All Assets
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT VIEWS -->
+      <div class="content-scroll">
+
+        <!-- 1. DASHBOARD VIEW -->
+        <section class="view-section active" id="view-dashboard">
+          <div class="grid-cols-4" style="margin-bottom:24px;">
+            <div class="card">
+              <div class="stat-metric">
+                <span class="stat-label">Discovered IoT Devices</span>
+                <span class="stat-value" id="dash-total-devices">0</span>
+                <span class="stat-trend" style="color:var(--accent-cyan);">Active inventory</span>
+              </div>
+            </div>
+            <div class="card" style="border-left:4px solid var(--risk-critical);">
+              <div class="stat-metric">
+                <span class="stat-label">Critical Risk Devices</span>
+                <span class="stat-value" style="color:var(--risk-critical);" id="dash-crit-devices">0</span>
+                <span class="stat-trend" style="color:var(--risk-critical);">Immediate action required</span>
+              </div>
+            </div>
+            <div class="card" style="border-left:4px solid var(--risk-high);">
+              <div class="stat-metric">
+                <span class="stat-label">High Risk Devices</span>
+                <span class="stat-value" style="color:var(--risk-high);" id="dash-high-devices">0</span>
+                <span class="stat-trend" style="color:var(--risk-high);">Remediation queued</span>
+              </div>
+            </div>
+            <div class="card" style="border-left:4px solid var(--quarantine-color);">
+              <div class="stat-metric">
+                <span class="stat-label">Isolated in Quarantine</span>
+                <span class="stat-value" style="color:var(--quarantine-color);" id="dash-quarantined">0</span>
+                <span class="stat-trend" style="color:var(--quarantine-color);">Firewall blocks active</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-cols-2" style="margin-bottom:24px;">
+            <div class="card">
+              <div class="stat-metric">
+                <span class="stat-label">Insecure / Cleartext Protocols</span>
+                <span class="stat-value" style="color:var(--risk-high);" id="dash-insecure-services">0</span>
+                <span class="stat-trend" style="color:var(--text-dim);">Telnet, FTP, plain HTTP, RTSP, MQTT</span>
+              </div>
+            </div>
+            <div class="card">
+              <div class="stat-metric">
+                <span class="stat-label">Average Risk Index</span>
+                <span class="stat-value" style="color:#fff;" id="dash-avg-score">0.0/100</span>
+                <span class="stat-trend" style="color:var(--accent-cyan);">Explainable multi-layer aggregate</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid-cols-2">
+            <!-- High Priority Attention -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--risk-critical);"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  High-Risk Device Priority Queue
+                </div>
+              </div>
+              <div id="dash-high-risk-list">
+                <!-- Dynamically loaded -->
+              </div>
+            </div>
+
+            <!-- Recent Anomaly Alerts -->
+            <div class="card">
+              <div class="card-header">
+                <div class="card-title">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--risk-high);"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  Live Traffic & Anomaly Feed
+                </div>
+              </div>
+              <div id="dash-anomalies-list">
+                <!-- Dynamically loaded -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. NETWORK DISCOVERY VIEW -->
+        <section class="view-section" id="view-discovery">
+          <div class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                Multi-Subnet Reconnaissance & Discovery Engine
+              </div>
+            </div>
+
+            <div class="grid-cols-3" style="margin-bottom:18px;">
+              <div class="form-group">
+                <label class="form-label">Network Interface / Subnet Target</label>
+                <select class="form-select" id="discovery-interface-select">
+                  <option>Detecting interfaces...</option>
+                </select>
+              </div>
+
+              <div class="form-group" id="discovery-custom-cidr-group" style="display:none;">
+                <label class="form-label">Custom CIDR Range(s)</label>
+                <input type="text" class="form-input" id="discovery-custom-cidr" placeholder="e.g. 192.168.1.0/24, 10.0.0.0/24">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Scan Protocol Method</label>
+                <select class="form-select" id="discovery-type-select">
+                  <option value="FULL">Hybrid: L2 ARP + L3 TCP Sweep + SSDP + mDNS (Recommended)</option>
+                  <option value="TCP_SWEEP">L3 Multi-Subnet TCP Connect Sweep (Cross-Subnet)</option>
+                  <option value="ARP">L2 Scapy ARP Sweep (Local Segment Only)</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="justify-content:flex-end;">
+                <label class="form-label">&nbsp;</label>
+                <button class="btn btn-primary" onclick="triggerDiscovery()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                  Launch Discovery Reconnaissance
+                </button>
+              </div>
+            </div>
+
+            <div style="background:rgba(0,0,0,0.3);padding:16px;border-radius:var(--radius-md);border:1px solid var(--border-subtle);">
+              <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:12.5px;">
+                <span id="discovery-status-text" style="color:var(--text-muted);font-weight:600;">Engine idle. Ready for discovery scan.</span>
+                <span id="discovery-percent-text" style="color:var(--accent-cyan);font-family:monospace;font-weight:700;"></span>
+              </div>
+              <div class="progress-container">
+                <div class="progress-bar animated" id="discovery-progress-bar" style="width:0%;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. DEVICE INVENTORY & ASSESSMENT VIEW -->
+        <section class="view-section" id="view-devices">
+          <div class="card" style="margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <input type="text" class="form-input" id="device-search-input" placeholder="Search IP, MAC, Vendor, Model..." style="width:280px;" oninput="loadDevices()">
+                <select class="form-select" id="device-risk-filter" onchange="loadDevices()">
+                  <option value="ALL">All Risk Tiers</option>
+                  <option value="Critical">Critical Risk Only</option>
+                  <option value="High">High Risk Only</option>
+                  <option value="Medium">Medium Risk Only</option>
+                  <option value="Low">Low Risk Only</option>
+                </select>
+              </div>
+              <div style="display:flex;gap:10px;">
+                <button class="btn btn-secondary btn-sm" onclick="loadDevices()">Refresh Table</button>
+                <button class="btn btn-primary btn-sm" onclick="triggerAssessAll()">Deep Assess All</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Device / MAC</th>
+                  <th>Vendor & Category</th>
+                  <th>Model / Firmware</th>
+                  <th>Services Exposure</th>
+                  <th>Matched CVEs</th>
+                  <th>Risk Posture</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="devices-table-body">
+                <!-- Dynamically loaded -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. NETWORK TOPOLOGY VIEW -->
+        <section class="view-section" id="view-topology">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                Real-Time Network Topology & Segmentation Map
+              </div>
+              <span class="badge badge-cyan">Click node to inspect dossier</span>
+            </div>
+            <canvas id="topology-canvas"></canvas>
+          </div>
+        </section>
+
+        <!-- 5. CVE INTELLIGENCE VIEW -->
+        <section class="view-section" id="view-cve">
+          <div class="card" style="margin-bottom:20px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <input type="text" class="form-input" id="cve-search-input" placeholder="Search CVE ID, Vendor (Hikvision, Dahua, TP-Link, BusyBox)..." style="width:340px;" oninput="loadCVEs()">
+              <span class="badge badge-cyan">IoT CVE Repository Active</span>
+            </div>
+          </div>
+          <div id="cve-cards-container">
+            <!-- Dynamically loaded -->
+          </div>
+        </section>
+
+        <!-- 6. CONFIGURATION COMPLIANCE AUDIT VIEW -->
+        <section class="view-section" id="view-config">
+          <div class="grid-cols-4" style="margin-bottom:24px;">
+            <div class="card"><div class="stat-metric"><span class="stat-label">Total Checks</span><span class="stat-value" id="cfg-stat-total">0</span></div></div>
+            <div class="card" style="border-left:4px solid var(--risk-critical);"><div class="stat-metric"><span class="stat-label">Failed Audits</span><span class="stat-value" style="color:var(--risk-critical);" id="cfg-stat-fail">0</span></div></div>
+            <div class="card" style="border-left:4px solid var(--risk-high);"><div class="stat-metric"><span class="stat-label">Warnings</span><span class="stat-value" style="color:var(--risk-high);" id="cfg-stat-warn">0</span></div></div>
+            <div class="card" style="border-left:4px solid var(--risk-low);"><div class="stat-metric"><span class="stat-label">Passed Checks</span><span class="stat-value" style="color:var(--risk-low);" id="cfg-stat-pass">0</span></div></div>
+          </div>
+          <div id="config-checks-summary-container">
+            <!-- Dynamically loaded -->
+          </div>
+        </section>
+
+        <!-- 7. BEHAVIOR & TRAFFIC MONITOR VIEW -->
+        <section class="view-section" id="view-behavior">
+          <div class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Real-Time Traffic Packet Sniffer & Anomaly Engine
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <span class="badge badge-cyan" id="behavior-monitor-status-text">Active Sniffing</span>
+                <button class="btn btn-secondary btn-sm" onclick="toggleBehaviorMonitor()">Toggle Sniffer</button>
+              </div>
+            </div>
+
+            <!-- Testing / Simulation Panel -->
+            <div style="background:rgba(0,0,0,0.3);padding:14px;border-radius:var(--radius-md);border:1px solid var(--border-subtle);margin-top:10px;">
+              <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:8px;">Live Anomaly Signature Verification</div>
+              <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                <button class="btn btn-outline-cyan btn-sm" onclick="triggerSimulateAnomaly('PORT_SCAN_DETECTED')">Simulate Port Scan Anomaly</button>
+                <button class="btn btn-outline-cyan btn-sm" onclick="triggerSimulateAnomaly('SUSPICIOUS_C2_COMMUNICATION')">Simulate C2 Callback Anomaly</button>
+                <button class="btn btn-outline-cyan btn-sm" onclick="triggerSimulateAnomaly('TRAFFIC_SPIKE_DETECTED')">Simulate DDoS Traffic Spike</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Detected Traffic Anomalies & Alerts</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Source Device IP</th>
+                    <th>Anomaly Category</th>
+                    <th>Threat Signature</th>
+                    <th>Forensic Evidence</th>
+                  </tr>
+                </thead>
+                <tbody id="behavior-anomalies-table">
+                  <!-- Dynamically loaded -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. QUARANTINE CENTER VIEW -->
+        <section class="view-section" id="view-quarantine">
+          <div class="card" style="margin-bottom:24px;">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--quarantine-color);"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                Active Quarantine Firewall Enforcements
+              </div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Device IP</th>
+                    <th>Vendor / Type</th>
+                    <th>Risk Posture</th>
+                    <th>Enforcement State</th>
+                    <th>Quarantined At</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="quarantine-table-body">
+                  <!-- Dynamically loaded -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Quarantine Incident Audit Trail</div>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Timestamp</th>
+                    <th>Target IP</th>
+                    <th>Action</th>
+                    <th>Enforcement Method</th>
+                    <th>Reason / Notes</th>
+                  </tr>
+                </thead>
+                <tbody id="quarantine-audit-body">
+                  <!-- Dynamically loaded -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 9. SECURITY REPORTS VIEW -->
+        <section class="view-section" id="view-reports">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                Executive Security Assessment & Response Reports
+              </div>
+            </div>
+
+            <div class="grid-cols-3">
+              <div class="card" style="background:rgba(255,255,255,0.02);">
+                <h3 style="font-size:16px;color:#fff;margin-bottom:8px;">Executive HTML Report</h3>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Formatted for presentation and browser print-to-PDF with complete audit evidence.</p>
+                <button class="btn btn-primary" onclick="downloadReport('html')">Open & Print PDF</button>
+              </div>
+
+              <div class="card" style="background:rgba(255,255,255,0.02);">
+                <h3 style="font-size:16px;color:#fff;margin-bottom:8px;">CSV Asset & Flaw Export</h3>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Spreadsheet containing inventory, open ports, vulnerability counts, and risk levels.</p>
+                <button class="btn btn-secondary" onclick="downloadReport('csv')">Download CSV</button>
+              </div>
+
+              <div class="card" style="background:rgba(255,255,255,0.02);">
+                <h3 style="font-size:16px;color:#fff;margin-bottom:8px;">Full JSON Posture Dump</h3>
+                <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Machine-readable security posture feed for SIEM / SOC ingestion.</p>
+                <button class="btn btn-secondary" onclick="downloadReport('json')">Export JSON</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+  </div>
+
+  <!-- DEEP DEVICE SECURITY DOSSIER MODAL -->
+  <div class="modal-overlay" id="device-dossier-modal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <span id="dossier-modal-ip">Device Security Dossier</span>
+          <span class="badge badge-low" id="dossier-risk-badge">0 - Low</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="btn btn-danger btn-sm" id="dossier-quarantine-toggle-btn">Quarantine</button>
+          <button class="modal-close" onclick="closeDossierModal()">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <!-- Asset Meta Cards -->
+        <div class="grid-cols-4" style="gap:12px;">
+          <div style="background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:6px;border:1px solid var(--border-subtle);">
+            <div class="stat-label">Hardware MAC</div>
+            <div style="font-family:monospace;font-size:13px;color:#fff;" id="dossier-mac">N/A</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:6px;border:1px solid var(--border-subtle);">
+            <div class="stat-label">Device Model</div>
+            <div style="font-size:13px;color:#fff;" id="dossier-model">Unknown</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:6px;border:1px solid var(--border-subtle);">
+            <div class="stat-label">Firmware / Software</div>
+            <div style="font-size:13px;color:#fff;" id="dossier-firmware">N/A</div>
+          </div>
+          <div style="background:rgba(0,0,0,0.3);padding:10px 14px;border-radius:6px;border:1px solid var(--border-subtle);">
+            <div class="stat-label">Operating System</div>
+            <div style="font-size:13px;color:#fff;" id="dossier-os">Unknown</div>
+          </div>
+        </div>
+
+        <!-- Dossier Navigation Tabs -->
+        <div class="modal-tabs">
+          <button class="modal-tab-btn active" data-tab="services">Services & Ports</button>
+          <button class="modal-tab-btn" data-tab="cves">Matched CVEs</button>
+          <button class="modal-tab-btn" data-tab="config">Configuration Audit</button>
+          <button class="modal-tab-btn" data-tab="exposure">Network Exposure</button>
+          <button class="modal-tab-btn" data-tab="behavior">Traffic Profile</button>
+          <button class="modal-tab-btn" data-tab="scripts">Isolation Scripts</button>
+        </div>
+
+        <!-- Tab 1: Services -->
+        <div class="dossier-tab-content" id="dossier-tab-services">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr><th>Port</th><th>Protocol</th><th>Security State</th><th>Banner Token</th><th>Auth Enforced</th></tr>
+              </thead>
+              <tbody id="dossier-services-table"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Tab 2: CVEs -->
+        <div class="dossier-tab-content" id="dossier-tab-cves" style="display:none;">
+          <div id="dossier-cves-list"></div>
+        </div>
+
+        <!-- Tab 3: Config -->
+        <div class="dossier-tab-content" id="dossier-tab-config" style="display:none;">
+          <div id="dossier-config-list"></div>
+        </div>
+
+        <!-- Tab 4: Exposure -->
+        <div class="dossier-tab-content" id="dossier-tab-exposure" style="display:none;">
+          <div id="dossier-exposure-info"></div>
+        </div>
+
+        <!-- Tab 5: Behavior -->
+        <div class="dossier-tab-content" id="dossier-tab-behavior" style="display:none;">
+          <div id="dossier-behavior-info"></div>
+        </div>
+
+        <!-- Tab 6: Scripts -->
+        <div class="dossier-tab-content" id="dossier-tab-scripts" style="display:none;">
+          <div id="dossier-scripts-box"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUARANTINE CONFIRM MODAL -->
+  <div class="modal-overlay" id="quarantine-confirm-modal">
+    <div class="modal-dialog" style="max-width:520px;">
+      <div class="modal-header">
+        <div class="modal-title" style="color:var(--risk-critical);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+          Confirm Device Quarantine
+        </div>
+        <button class="modal-close" onclick="closeQuarantineModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13.5px;color:var(--text-main);line-height:1.5;">
+          Are you sure you want to isolate device <b id="quarantine-target-ip" style="color:#fff;font-family:monospace;"></b>?
+          This will apply a firewall drop rule on the operating system to prevent all inbound and outbound communication with this device.
+        </p>
+
+        <div class="form-group" style="margin-top:14px;">
+          <label class="form-label">Quarantine Reason</label>
+          <input type="text" class="form-input" id="quarantine-reason-input" value="High risk score & confirmed CVE vulnerabilities">
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:14px;">
+          <button class="btn btn-secondary" onclick="closeQuarantineModal()">Cancel</button>
+          <button class="btn btn-danger" onclick="executeQuarantine()">Enforce Isolation Rule</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING TOASTS -->
+  <div id="toast-container"></div>
+
+  <!-- JAVASCRIPT BUNDLE -->
+  <script src="/js/api.js"></script>
+  <script src="/js/topology.js"></script>
+  <script src="/js/app.js"></script>
+</body>
+</html>

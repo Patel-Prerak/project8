@@ -1,0 +1,14 @@
+.git
+.gitignore
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.idea
+.vscode
+*.log
+scratch/
+IoT_Security_Assessment_Platform_Development_Log.docx
